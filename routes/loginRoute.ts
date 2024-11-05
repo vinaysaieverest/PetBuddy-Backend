@@ -7,7 +7,9 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       const { name,password} = req.body as { name:string,password:string};
       const user = new Login (name , password)
       const results = await user.setLogin()
-      res.status(200).send("Login Success")
+      if(results && typeof results.status ==="number"){
+        res.status(results.status)
+      }
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
